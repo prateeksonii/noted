@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { FormEventHandler, useState } from "react";
 import { MdOutlineStickyNote2 } from "react-icons/md";
+import { AnimateSharedLayout, motion } from "framer-motion";
 
 type Note = {
   id: number;
@@ -27,7 +28,7 @@ const IndexPage: NextPage = () => {
   };
 
   return (
-    <div className="container p-4">
+    <div className="container mx-auto p-4">
       <nav className="flex items-center gap-2">
         <MdOutlineStickyNote2 className="h-10 w-10" />
         <span className="text-2xl font-medium">Noted</span>
@@ -45,13 +46,21 @@ const IndexPage: NextPage = () => {
           <input type="submit" value="" />
         </form>
 
-        <div className="mt-4 flex flex-col gap-4">
-          {notes.map((note) => (
-            <div key={note.id} className="rounded bg-zinc-700 p-4">
-              {note.note}
-            </div>
-          ))}
-        </div>
+        <AnimateSharedLayout>
+          <motion.div className="mt-4 flex flex-col gap-4" layout>
+            {notes.map((note) => (
+              <motion.div
+                layout
+                initial={{ opacity: 0, translateY: "-100%" }}
+                animate={{ opacity: 1, translateY: "0" }}
+              >
+                <div key={note.id} className="rounded bg-zinc-700 p-4">
+                  {note.note}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimateSharedLayout>
       </main>
     </div>
   );
