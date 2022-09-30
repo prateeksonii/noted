@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler, useEffect, useState } from "react";
 import { MdOutlineStickyNote2 } from "react-icons/md";
 import { AnimateSharedLayout, motion } from "framer-motion";
 
@@ -26,6 +26,19 @@ const IndexPage: NextPage = () => {
 
     setNotes([newNote, ...notes]);
   };
+
+  useEffect(() => {
+    const notes = localStorage.getItem("noted_notes");
+    if (notes) {
+      setNotes(JSON.parse(notes));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (notes.length > 0) {
+      localStorage.setItem("noted_notes", JSON.stringify(notes));
+    }
+  }, [notes]);
 
   return (
     <div className="container mx-auto p-4">
