@@ -59,7 +59,7 @@ const AddNoteModal: FC<AddNoteModalProps> = ({ notes, setNotes }) => {
       >
         <Dialog.Panel className="flex h-full flex-col">
           <Dialog.Title className="text-2xl font-medium">
-            What's on your mind?
+            What&apos;s on your mind?
           </Dialog.Title>
           <div className="my-2 h-full">
             <textarea
