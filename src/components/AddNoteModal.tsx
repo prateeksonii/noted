@@ -3,19 +3,19 @@ import { Dispatch, FC, SetStateAction, useState } from "react";
 import { MdAdd, MdCheck } from "react-icons/md";
 import { motion } from "framer-motion";
 import { Note } from "../types/notes";
+import useModal from "../hooks/useModal";
 
-interface ModalProps {
+interface AddNoteModalProps {
   notes: Note[];
   setNotes: Dispatch<SetStateAction<Note[]>>;
 }
 
-const Modal: FC<ModalProps> = ({ notes, setNotes }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AddNoteModal: FC<AddNoteModalProps> = ({ notes, setNotes }) => {
+  const { isOpen, open, handleClose } = useModal();
   const [note, setNote] = useState("");
 
   const handleAddNote = () => {
     if (note === "") {
-      setIsOpen(false);
       return;
     }
 
@@ -27,7 +27,6 @@ const Modal: FC<ModalProps> = ({ notes, setNotes }) => {
 
     setNotes([newNote, ...notes]);
     setNote("");
-    setIsOpen(false);
   };
   return (
     <>
@@ -41,7 +40,7 @@ const Modal: FC<ModalProps> = ({ notes, setNotes }) => {
       ) : (
         <button
           className="absolute bottom-1 right-1 flex items-center gap-1 rounded-full bg-sky-600 py-2 px-4 font-medium transition-all hover:bg-sky-800"
-          onClick={() => setIsOpen(true)}
+          onClick={open}
         >
           <>
             <MdAdd />
@@ -51,7 +50,7 @@ const Modal: FC<ModalProps> = ({ notes, setNotes }) => {
       )}
       <Dialog
         open={isOpen}
-        onClose={handleAddNote}
+        onClose={() => handleClose(handleAddNote)}
         className="fixed top-20 bottom-10 left-10 right-10 rounded border bg-zinc-800 p-4"
         as={motion.div}
         initial={{ scale: 0 }}
@@ -78,4 +77,4 @@ const Modal: FC<ModalProps> = ({ notes, setNotes }) => {
   );
 };
 
-export default Modal;
+export default AddNoteModal;

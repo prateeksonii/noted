@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
-import { FormEventHandler, useEffect, useState } from "react";
-import { MdAdd, MdCheck, MdOutlineStickyNote2 } from "react-icons/md";
+import { useEffect, useState } from "react";
+import { MdOutlineStickyNote2 } from "react-icons/md";
 import { AnimateSharedLayout, motion } from "framer-motion";
-import { Dialog } from "@headlessui/react";
 import { Note } from "../types/notes";
-import Modal from "../components/Modal";
+import AddNoteModal from "../components/AddNoteModal";
 
 const IndexPage: NextPage = () => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -44,7 +43,7 @@ const IndexPage: NextPage = () => {
             ))}
           </motion.div>
         </AnimateSharedLayout>
-        <Modal notes={notes} setNotes={setNotes} />
+        <AddNoteModal notes={notes} setNotes={setNotes} />
       </main>
     </div>
   );
