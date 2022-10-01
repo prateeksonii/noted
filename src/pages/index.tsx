@@ -28,7 +28,7 @@ const IndexPage: NextPage = () => {
         <span className="text-2xl font-medium">Noted</span>
       </nav>
 
-      <main className="relative h-full">
+      <main className="relative h-[calc(100vh-4rem)]">
         <AnimateSharedLayout>
           <motion.div className="mt-4 flex flex-col gap-4" layout>
             {notes.map((note) => (
