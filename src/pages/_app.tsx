@@ -15,7 +15,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <div className="absolute inset-0">
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 };

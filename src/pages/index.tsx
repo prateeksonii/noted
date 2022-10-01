@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { MdOutlineStickyNote2 } from "react-icons/md";
-import { AnimateSharedLayout, motion } from "framer-motion";
+import { AnimateSharedLayout, LayoutGroup, motion } from "framer-motion";
 import { Note } from "../types/notes";
 import AddNoteModal from "../components/AddNoteModal";
 
@@ -29,7 +29,7 @@ const IndexPage: NextPage = () => {
       </nav>
 
       <main className="relative h-[calc(100vh-4rem)]">
-        <AnimateSharedLayout>
+        <LayoutGroup>
           <motion.div className="flex flex-col gap-4 pt-4" layout>
             {notes.map((note) => (
               <motion.div
@@ -42,7 +42,7 @@ const IndexPage: NextPage = () => {
               </motion.div>
             ))}
           </motion.div>
-        </AnimateSharedLayout>
+        </LayoutGroup>
         <AddNoteModal notes={notes} setNotes={setNotes} />
       </main>
     </div>
