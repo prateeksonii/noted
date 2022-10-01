@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 body {
-  @apply bg-zinc-800 text-zinc-100;
+  @apply bg-zinc-800 text-zinc-100 h-screen;
+  height: -webkit-fill-available;
 }
