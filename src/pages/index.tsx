@@ -4,6 +4,7 @@ import { MdOutlineStickyNote2 } from "react-icons/md";
 import { AnimateSharedLayout, LayoutGroup, motion } from "framer-motion";
 import { Note } from "../types/notes";
 import AddNoteModal from "../components/AddNoteModal";
+import NoteCard from "../components/Note";
 
 const IndexPage: NextPage = () => {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -32,14 +33,7 @@ const IndexPage: NextPage = () => {
         <LayoutGroup>
           <motion.div className="flex flex-col gap-4 pt-4" layout>
             {notes.map((note) => (
-              <motion.div
-                key={note.id}
-                layout
-                initial={{ opacity: 0, translateY: "-100%" }}
-                animate={{ opacity: 1, translateY: "0" }}
-              >
-                <div className="rounded bg-zinc-700 p-4">{note.note}</div>
-              </motion.div>
+              <NoteCard key={note.id} note={note} />
             ))}
           </motion.div>
         </LayoutGroup>
