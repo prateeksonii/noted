@@ -30,7 +30,7 @@ const IndexPage: NextPage = () => {
 
       <main className="relative h-[calc(100vh-4rem)]">
         <AnimateSharedLayout>
-          <motion.div className="mt-4 flex flex-col gap-4" layout>
+          <motion.div className="flex flex-col gap-4 pt-4" layout>
             {notes.map((note) => (
               <motion.div
                 key={note.id}
