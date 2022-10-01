@@ -3,17 +3,45 @@ import { motion } from "framer-motion";
 import { Note } from "../types/notes";
 import useModal from "../hooks/useModal";
 import { Dialog } from "@headlessui/react";
+import { useAtom } from "jotai";
+import notesAtom from "../atoms/notesAtom";
 
 interface NoteCardProps {
   note: Note;
 }
 
+const useNotesCard = (note: Note) => {
+  const [notes, setNotes] = useAtom(notesAtom);
+  const [noteValue, setNoteValue] = useState(note.note);
+
+  const deleteNote = (id: number) => {
+    let newNotes = [...notes];
+    newNotes = newNotes.filter((note) => note.id !== id);
+    setNotes(newNotes);
+  };
+
+  const updateNote = (id: number) => {
+    const newNotes = [...notes];
+    const index = newNotes.findIndex((note) => note.id === id);
+    newNotes[index] = { ...note, note: noteValue };
+    setNotes(newNotes);
+  };
+
+  const handleEditNote = () => {
+    if (noteValue === "") {
+      return deleteNote(note.id);
+    }
+
+    updateNote(note.id);
+  };
+
+  return { handleEditNote, setNoteValue, noteValue };
+};
+
 const NoteCard: FC<NoteCardProps> = ({ note }) => {
   const { handleClose, isOpen, open } = useModal();
 
-  const [noteValue, setNoteValue] = useState(note.note);
-
-  const handleEditNote = () => {};
+  const { handleEditNote, noteValue, setNoteValue } = useNotesCard(note);
 
   return (
     <>
@@ -48,7 +76,8 @@ const NoteCard: FC<NoteCardProps> = ({ note }) => {
       ) : (
         <motion.div
           layout
-          initial={{ opacity: 0, translateY: "-100%" }}
+          className="-translate-y-full"
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1, translateY: "0" }}
           onClick={open}
         >

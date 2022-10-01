@@ -8,11 +8,23 @@ import type { AppType } from "next/app";
 import type { AppRouter } from "../server/router";
 import type { Session } from "next-auth";
 import "../styles/globals.css";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
+import notesAtom from "../atoms/notesAtom";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  const [, setNotes] = useAtom(notesAtom);
+
+  useEffect(() => {
+    const notes = localStorage.getItem("noted_notes");
+    if (notes) {
+      setNotes(JSON.parse(notes));
+    }
+  }, []);
+
   return (
     <SessionProvider session={session}>
       <div className="absolute inset-0">

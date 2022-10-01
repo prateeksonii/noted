@@ -5,16 +5,11 @@ import { AnimateSharedLayout, LayoutGroup, motion } from "framer-motion";
 import { Note } from "../types/notes";
 import AddNoteModal from "../components/AddNoteModal";
 import NoteCard from "../components/Note";
+import { useAtom } from "jotai";
+import notesAtom from "../atoms/notesAtom";
 
 const IndexPage: NextPage = () => {
-  const [notes, setNotes] = useState<Note[]>([]);
-
-  useEffect(() => {
-    const notes = localStorage.getItem("noted_notes");
-    if (notes) {
-      setNotes(JSON.parse(notes));
-    }
-  }, []);
+  const [notes, setNotes] = useAtom(notesAtom);
 
   useEffect(() => {
     if (notes.length > 0) {
