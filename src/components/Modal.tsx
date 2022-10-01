@@ -1,12 +1,7 @@
 import { Dialog } from "@headlessui/react";
-import {
-  Dispatch,
-  FC,
-  FormEventHandler,
-  SetStateAction,
-  useState,
-} from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { MdAdd, MdCheck } from "react-icons/md";
+import { motion } from "framer-motion";
 import { Note } from "../types/notes";
 
 interface ModalProps {
@@ -19,7 +14,10 @@ const Modal: FC<ModalProps> = ({ notes, setNotes }) => {
   const [note, setNote] = useState("");
 
   const handleAddNote = () => {
-    if (note === "") return;
+    if (note === "") {
+      setIsOpen(false);
+      return;
+    }
 
     const newNote: Note = {
       id: notes.length + 1,
@@ -55,6 +53,10 @@ const Modal: FC<ModalProps> = ({ notes, setNotes }) => {
         open={isOpen}
         onClose={handleAddNote}
         className="fixed top-20 bottom-10 left-10 right-10 rounded border bg-zinc-800 p-4"
+        as={motion.div}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1, transition: { duration: 0.2 } }}
+        exit={{ scale: 0, transition: { duration: 1 } }}
       >
         <Dialog.Panel className="flex h-full flex-col">
           <Dialog.Title className="text-2xl font-medium">
