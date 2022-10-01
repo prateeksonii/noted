@@ -7,6 +7,7 @@ import AddNoteModal from "../components/AddNoteModal";
 import NoteCard from "../components/Note";
 import { useAtom } from "jotai";
 import notesAtom from "../atoms/notesAtom";
+import Nav from "../components/common/Nav";
 
 const IndexPage: NextPage = () => {
   const [notes, setNotes] = useAtom(notesAtom);
@@ -19,11 +20,7 @@ const IndexPage: NextPage = () => {
 
   return (
     <div className="container mx-auto flex h-full flex-col p-4">
-      <nav className="flex h-16 items-center gap-2">
-        <MdOutlineStickyNote2 className="h-10 w-10" />
-        <span className="text-2xl font-medium">Noted</span>
-      </nav>
-
+      <Nav />
       <main className="relative h-[calc(100vh-4rem)]">
         <LayoutGroup>
           <motion.div className="flex flex-col gap-4 pt-4" layout>
