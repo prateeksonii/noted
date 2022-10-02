@@ -81,7 +81,11 @@ const NoteCard: FC<NoteCardProps> = ({ note }) => {
           animate={{ opacity: 1, translateY: "0" }}
           onClick={open}
         >
-          <div className="rounded bg-zinc-700 p-4">{note.note}</div>
+          <div className="break-words rounded bg-zinc-700 p-4 md:h-full md:min-w-[200px] md:p-8">
+            {note.note.split("\n").map((line, i) => (
+              <div key={i}>{line}</div>
+            ))}
+          </div>
         </motion.div>
       )}
     </>

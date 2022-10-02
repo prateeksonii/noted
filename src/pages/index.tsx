@@ -22,14 +22,17 @@ const IndexPage: NextPage = () => {
     <div className="container mx-auto flex h-full flex-col p-4">
       <Nav />
       <main className="relative h-[calc(100vh-4rem)]">
+        <AddNoteModal notes={notes} setNotes={setNotes} />
         <LayoutGroup>
-          <motion.div className="flex flex-col gap-4 pt-4" layout>
+          <motion.div
+            className="flex flex-col gap-4 overflow-ellipsis pt-4 md:grid md:grid-cols-[repeat(auto-fit,minmax(min(10rem,100%),1fr))] md:gap-8"
+            layout
+          >
             {notes.map((note) => (
               <NoteCard key={note.id} note={note} />
             ))}
           </motion.div>
         </LayoutGroup>
-        <AddNoteModal notes={notes} setNotes={setNotes} />
       </main>
     </div>
   );
