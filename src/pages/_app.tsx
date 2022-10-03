@@ -11,6 +11,7 @@ import "../styles/globals.css";
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import notesAtom from "../atoms/notesAtom";
+import Layout from "../components/common/Layout";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -28,7 +29,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <div className="absolute inset-0">
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </div>
     </SessionProvider>
   );
@@ -65,21 +68,21 @@ export default withTRPC<AppRouter>({
       // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
 
       // To use SSR properly you need to forward the client's headers to the server
-      // headers: () => {
-      //   if (ctx?.req) {
-      //     const headers = ctx?.req?.headers;
-      //     delete headers?.connection;
-      //     return {
-      //       ...headers,
-      //       "x-ssr": "1",
-      //     };
-      //   }
-      //   return {};
-      // }
+      headers: () => {
+        if (ctx?.req) {
+          const headers = ctx?.req?.headers;
+          delete headers?.connection;
+          return {
+            ...headers,
+            "x-ssr": "1",
+          };
+        }
+        return {};
+      },
     };
   },
   /**
    * @link https://trpc.io/docs/ssr
    */
-  ssr: false,
+  ssr: true,
 })(MyApp);
