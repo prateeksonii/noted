@@ -1,16 +1,18 @@
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { MdOutlineStickyNote2 } from "react-icons/md";
-import { AnimateSharedLayout, LayoutGroup, motion } from "framer-motion";
-import { Note } from "../types/notes";
+import { LayoutGroup, motion } from "framer-motion";
 import AddNoteModal from "../components/AddNoteModal";
 import NoteCard from "../components/Note";
 import { useAtom } from "jotai";
 import notesAtom from "../atoms/notesAtom";
 import Nav from "../components/common/Nav";
+import userAtom from "../atoms/userAtom";
 
 const IndexPage: NextPage = () => {
+  const [user] = useAtom(userAtom);
   const [notes, setNotes] = useAtom(notesAtom);
+
+  console.log(user);
 
   useEffect(() => {
     if (notes.length > 0) {

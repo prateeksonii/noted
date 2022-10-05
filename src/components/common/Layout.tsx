@@ -1,12 +1,22 @@
-import { useSession } from "next-auth/react";
-import React, { FC } from "react";
+import { useAtom } from "jotai";
+import React, { FC, useEffect } from "react";
+import userAtom from "../../atoms/userAtom";
+import { trpc } from "../../utils/trpc";
 
 const Layout: FC<{ children: React.ReactElement }> = ({ children }) => {
-  const session = useSession();
+  const [user, setUser] = useAtom(userAtom);
 
-  if (session.status === "loading") {
-    return <div>Checking auth status...</div>;
-  }
+  const { isLoading, isError, error } = trpc.useQuery(["users.me"], {
+    retry: false,
+    onError: () => {
+      setUser(null);
+    },
+    onSuccess: (user) => {
+      setUser(user);
+    },
+  });
+
+  if (isLoading) return <div>Loading...</div>;
 
   return <>{children}</>;
 };
