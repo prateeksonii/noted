@@ -1,26 +1,44 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
-import { Note } from "../types/notes";
 import useModal from "../hooks/useModal";
 import { Dialog } from "@headlessui/react";
 import { useAtom } from "jotai";
 import notesAtom from "../atoms/notesAtom";
+import { Note } from "@prisma/client";
+import userAtom from "../atoms/userAtom";
+import { trpc } from "../utils/trpc";
 
 interface NoteCardProps {
   note: Note;
 }
 
 const useNotesCard = (note: Note) => {
+  const [user] = useAtom(userAtom);
   const [notes, setNotes] = useAtom(notesAtom);
   const [noteValue, setNoteValue] = useState(note.note);
 
-  const deleteNote = (id: number) => {
+  const { mutateAsync: mutateAsyncDelete } = trpc.useMutation("notes.delete");
+  const { mutateAsync: mutateAsyncUpdate } = trpc.useMutation("notes.update");
+
+  const deleteNote = (id: string) => {
+    if (user) {
+      mutateAsyncDelete({
+        noteId: note.id,
+      });
+    }
     let newNotes = [...notes];
     newNotes = newNotes.filter((note) => note.id !== id);
     setNotes(newNotes);
   };
 
-  const updateNote = (id: number) => {
+  const updateNote = (id: string) => {
+    if (user) {
+      mutateAsyncUpdate({
+        noteId: note.id,
+        note: noteValue,
+      });
+    }
+
     const newNotes = [...notes];
     const index = newNotes.findIndex((note) => note.id === id);
     newNotes[index] = { ...note, note: noteValue };

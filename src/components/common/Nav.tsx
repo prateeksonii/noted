@@ -5,7 +5,7 @@ import { MdOutlineStickyNote2 } from "react-icons/md";
 import userAtom from "../../atoms/userAtom";
 
 const Nav = () => {
-  const [user, setUser] = useAtom(userAtom);
+  const [user] = useAtom(userAtom);
 
   return (
     <nav className="flex h-16 items-center gap-2">

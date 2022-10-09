@@ -2,8 +2,12 @@ import { Dialog } from "@headlessui/react";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { MdAdd, MdCheck } from "react-icons/md";
 import { motion } from "framer-motion";
-import { Note } from "../types/notes";
 import useModal from "../hooks/useModal";
+import { Note } from "@prisma/client";
+import { trpc } from "../utils/trpc";
+import { useAtom } from "jotai";
+import userAtom from "../atoms/userAtom";
+import { nanoid } from "nanoid";
 
 interface AddNoteModalProps {
   notes: Note[];
@@ -11,22 +15,36 @@ interface AddNoteModalProps {
 }
 
 const AddNoteModal: FC<AddNoteModalProps> = ({ notes, setNotes }) => {
+  const [user] = useAtom(userAtom);
   const { isOpen, open, handleClose } = useModal();
   const [note, setNote] = useState("");
 
-  const handleAddNote = () => {
+  const { mutateAsync } = trpc.useMutation("notes.create");
+  const ctx = trpc.useContext();
+
+  const handleAddNote = async () => {
     if (note === "") {
       return;
     }
 
-    const newNote: Note = {
-      id: notes.length + 1,
-      note,
-      createdAt: Date.now().toString(),
-    };
+    if (user) {
+      await mutateAsync({
+        note,
+      });
 
-    setNotes([newNote, ...notes]);
-    setNote("");
+      ctx.invalidateQueries(["notes.all"]);
+    } else {
+      const newNote: Note = {
+        id: nanoid(),
+        note,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        userId: "draft",
+      };
+
+      setNotes([newNote, ...notes]);
+      setNote("");
+    }
   };
   return (
     <>

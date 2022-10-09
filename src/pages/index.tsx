@@ -12,8 +12,6 @@ const IndexPage: NextPage = () => {
   const [user] = useAtom(userAtom);
   const [notes, setNotes] = useAtom(notesAtom);
 
-  console.log(user);
-
   useEffect(() => {
     if (notes.length > 0) {
       localStorage.setItem("noted_notes", JSON.stringify(notes));
